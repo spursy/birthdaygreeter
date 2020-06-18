@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: bdgreeter
+ labels:
+   app: bdgreeter
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: bdgreeter
+ template:
+   metadata:
+     labels:
+       app: bdgreeter
+   spec:
+     containers:
+     - name: app
+       image: spursyy/egg-birthday-greeter:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: bdgreeter-svc
+spec:
+ selector:
+   app: bdgreeter
+ ports:
+ - name: http
+   port: 7001
+   targetPort: 7001
+   nodePort: 32000
+   protocol: TCP
+ type: NodePort
